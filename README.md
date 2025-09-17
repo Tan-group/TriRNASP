@@ -1,7 +1,7 @@
 ![header](img/WorkFlow.png)
 # TriRNASP
 
-**Readme for TriRNASP package** by Tan-group at Wuhan University
+**Readme for TriRNASP package** by Tan-group at Wuhan University  
 **TriRNASP** is a program for computing RNA **three-body statistical potentials** and selecting structures closest to the native state.  
 It reads precomputed energy tables and atom type definitions from the `Energy/` folder, processes PDB structures from a given directory, and outputs the lowest-energy candidates.
 
