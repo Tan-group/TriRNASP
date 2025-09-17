@@ -101,7 +101,7 @@ Removes object files and the executable.
 
 **If you have any questions about TriRNASP, please contact us by the email: zjtan@whu.edu.cn .**
 
-## Citation Example
+## Citation
 
 If you use **TriRNASP** in your work, please cite it as:
 
