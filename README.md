@@ -1,52 +1,61 @@
 ![header](img/WorkFlow.png)
+
 # TriRNASP
 
-**Readme for TriRNASP package** by Tan-group at Wuhan University  
-**TriRNASP** is a program for computing RNA **three-body statistical potentials** and selecting structures closest to the native state.  
-It reads precomputed energy tables and atom type definitions from the `Energy/` folder, processes PDB structures from a given directory, and outputs the lowest-energy candidates.
+**TriRNASP** — by *Tan-group, Wuhan University*  
+A program for computing RNA **three-body statistical potentials** and **selecting structures closest to the native state**.  
+
+It reads precomputed energy tables and atom type definitions from the `Energy/` folder, processes `.pdb` structures from a given directory, and outputs the lowest-energy candidates.
 
 ---
 
-## Build
+## 🔧 Build & Installation
 
-### Using Make (recommended)
+### ✅ Recommended: Using Make
 
 ```bash
 make
 ```
 
-This produces the executable `TriRNASP`.
+This will:
+- Compile the executable **`TriRNASP`**  
+- Automatically extract bundled dataset archives (`*.zip`) if present  
 
-### Manual build
+### 🛠️ Manual Build
 
 ```bash
-gcc -O3 -fopenmp -Wall -Wextra -Wa,--noexecstack -Wl,-z,noexecstack TriRNASP.c -lm -o TriRNASP
+gcc -O3 -fopenmp -Wall -Wextra \
+    -Wa,--noexecstack -Wl,-z,noexecstack \
+    TriRNASP.c -lm -o TriRNASP
 ```
 
-**Requirements**:
+**Requirements:**
 - GCC with OpenMP support  
 - GNU Make  
 - Linux/Unix environment  
 
 ---
 
-## Input Files
+## 📂 Input Files
 
-Before running, ensure the following are present:
+Before running, ensure the following are available:
 
 1. **Energy folder (`Energy/`)**
    - `Energy/Rough.energy`  
    - `Energy/Fine.energy`  
    - `Energy/12atom_type.dat`  
 
-   These files contain the statistical potential parameters and the atom type list (12 entries).
+   These provide statistical potential parameters and the atom type list (12 entries).
 
 2. **Structure directory**  
-   - A folder containing `.pdb` files, e.g. `./example/`.
+   - A folder containing RNA structure files in `.pdb` format  
+   - Example: `./example/`
 
 ---
 
-## Usage
+## 🚀 Usage
+
+Run TriRNASP on a directory of `.pdb` files:
 
 ```bash
 ./TriRNASP <structure_directory>
@@ -59,15 +68,16 @@ Example:
 ```
 
 The program will:
-- Scan the given directory for `.pdb` files  
+- Scan the directory for `.pdb` files  
 - Compute three-body energies for each structure  
-- Output the **top 5 lowest-energy structures**
+- Output the **top 5 lowest-energy structures**  
 
 ---
 
-## Example Output
+## 📊 Example Output
 
-```
+```bash
+./TriRNASP ./example
 Scanning  directory: ./example/
 Found PDBs: 182
 R1205.pdb           -447.119919744277
@@ -75,36 +85,42 @@ R1205TS481_2.pdb    -391.548708213982
 R1205TS481_1.pdb    -425.672444518381
 R1205TS481_3.pdb    -292.657212955055
 R1205TS481_4.pdb    -364.965577550650
-Wall-clock time: 2.181537 seconds
+Wall-clock time: 1.873877 seconds
 ```
 
 ---
 
-## Clean Build
+## 🧹 Clean Build
+
+Remove object files and the executable:
 
 ```bash
 make clean
 ```
 
-Removes object files and the executable.
+---
+
+## ⚠️ Notes
+
+- Input `.pdb` files must follow the standard **PDB format**.  
+- All required energy/data files must exist in the `Energy/` folder.  
+- Missing inputs will cause the program to terminate.  
+- OpenMP parallelization is enabled for **multi-core performance**.  
 
 ---
 
-## Notes
+## 📬 Contact
 
-- Input `.pdb` files must follow the standard PDB format.  
-- All required data files (`Rough.energy`, `Fine.energy`, `12atom_type.dat`) must exist inside the `Energy/` folder.  
-- Missing inputs will cause the program to terminate.  
-- OpenMP parallelization is enabled for multi-core performance.  
+For questions or feedback, please contact:  
+📧 **zjtan@whu.edu.cn**
 
-## Contact
+---
 
-**If you have any questions about TriRNASP, please contact us by the email: zjtan@whu.edu.cn .**
+## 📖 Citation
 
-## Citation
-
-If you use **TriRNASP** in your work, please cite it as:
+If you use **TriRNASP** in your work, please cite:
 
 ```
-Tovi Yuen, En Lou, Zouchenyu Zhou, Ya-Lan Tan, Zhi-jie Tan. 2025. TriRNASP. [Software]. Available at: https://github.com/Tan-group
+Tovi Yuen, En Lou, Zouchenyu Zhou, Ya-Lan Tan, Zhi-jie Tan. 2025. TriRNASP. [Software].
+Available at: https://github.com/Tan-group
 ```
