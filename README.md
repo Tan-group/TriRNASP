@@ -122,5 +122,5 @@ If you use **TriRNASP** in your work, please cite:
 
 ```
 Tovi Yuen, En Lou, Zouchenyu Zhou, Ya-Lan Tan, Zhi-jie Tan. 2025. TriRNASP. [Software].
-Available at: https://github.com/Tan-group
+Available at: https://github.com/Tan-group/TriRNASP
 ```
