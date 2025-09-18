@@ -7,6 +7,8 @@ A program for computing RNA **three-body statistical potentials** and **selectin
 
 It reads precomputed energy tables and atom type definitions from the `Energy/` folder, processes `.pdb` structures from a given directory, and outputs the lowest-energy candidates.
 
+[![Download Test Sets](https://img.shields.io/badge/Download-Test%20Sets-blue)](https://github.com/Tan-group/TriRNASP/releases)
+
 ---
 
 ## 🔧 Build & Installation
@@ -50,6 +52,9 @@ Before running, ensure the following are available:
 2. **Structure directory**  
    - A folder containing RNA structure files in `.pdb` format  
    - Example: `./example/`
+
+⚠️ **Note:**  
+The official **TriRNASP test sets** (including benchmark PDBs and evaluation metrics such as DI, TM-score, and RMSD) are available from the **[GitHub Releases](https://github.com/Tan-group/TriRNASP/releases)** page.
 
 ---
 
@@ -122,5 +127,5 @@ If you use **TriRNASP** in your work, please cite:
 
 ```
 Tovi Yuen, En Lou, Zouchenyu Zhou, Ya-Lan Tan, Zhi-jie Tan. 2025. TriRNASP. [Software].
-Available at: https://github.com/Tan-group/TriRNASP
+Available at: https://github.com/Tan-group
 ```
