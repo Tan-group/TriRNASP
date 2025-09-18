@@ -114,6 +114,35 @@ make clean
 
 ---
 
+## ⚡ Batch Processing with `batch.sh`
+
+For large datasets containing many subfolders of PDB structures, a helper script **`batch.sh`** is provided.
+
+### Usage
+
+```bash
+./batch.sh
+```
+
+The script will:
+- Traverse all subdirectories under `Test_sets/`  
+- Run **TriRNASP** on each directory  
+- Save energy results into `results_energy/` (one `.energy` file per directory)  
+- Log failed directories in `results_energy/failed_dirs.txt`  
+- Log PDB files that crash TriRNASP in `results_energy/crash_pdbs.txt`  
+
+### Parallel Execution
+
+By default, `JOBS=1` (serial mode). You can adjust this parameter inside `batch.sh`:
+
+```bash
+JOBS=$(nproc)
+```
+
+This will use all available CPU cores for faster batch processing.
+
+---
+
 ## ⚠️ Notes
 
 - Input `.pdb` files must follow the standard **PDB format**.  
