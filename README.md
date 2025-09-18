@@ -1,5 +1,3 @@
-![header](img/WorkFlow.png)
-
 # TriRNASP
 
 **TriRNASP** — by *Tan-group, Wuhan University*  
@@ -93,6 +91,17 @@ R1205TS481_4.pdb    -364.965577550650
 Wall-clock time: 1.873877 seconds
 ```
 
+### Example Error (when stack size is too small):
+
+```bash
+./TriRNASP R0251/
+Scanning  directory: R0251/
+Found PDBs: 23
+Segmentation fault (core dumped)
+```
+
+This issue can be resolved by adjusting the constants defined in the source code (see **Notes** below).
+
 ---
 
 ## 🧹 Clean Build
@@ -111,6 +120,30 @@ make clean
 - All required energy/data files must exist in the `Energy/` folder.  
 - Missing inputs will cause the program to terminate.  
 - OpenMP parallelization is enabled for **multi-core performance**.  
+
+### 🔧 Adjustable Parameters in Source Code
+At the top of **`TriRNASP.c`**, two constants control memory usage and file path length:
+
+```c
+#define num     10000   // default = 10000
+#define path_l  300     // default = 300
+```
+
+- **`num`** → Maximum number of `.pdb` structures allowed in a single directory.  
+  - Default is 10000.  
+  - If your dataset only contains a few hundred structures, this wastes memory and may cause **stack overflow / segmentation fault**.  
+  - ✅ **Solution:** Reduce this value (e.g. 512 or 1024) according to your dataset size.  
+
+- **`path_l`** → Maximum file path length (in characters).  
+  - Default is 300.  
+  - Usually sufficient, since typical Linux path length limit (`PATH_MAX`) is 4096.  
+  - ⚠️ Do **not** set this unnecessarily large, or it will also increase memory usage.  
+
+If you encounter crashes like:
+```bash
+Segmentation fault (core dumped)
+```
+then lowering `num` in `TriRNASP.c` and recompiling usually solves the issue.
 
 ---
 
