@@ -1,9 +1,11 @@
+![header](img/WorkFlow.png)
+
 # TriRNASP
 
 **TriRNASP** — by *Tan-group, Wuhan University*  
-A program for computing RNA **three-body statistical potentials** and **selecting structures closest to the native state**.  
+*A program for computing RNA three-body statistical potentials and selecting structures closest to the native state.*
 
-It reads precomputed energy tables and atom type definitions from the `Energy/` folder, processes `.pdb` structures from a given directory, and outputs the lowest-energy candidates.
+TriRNASP reads precomputed energy tables and atom type definitions from the `Energy/` folder, processes `.pdb` structures from a given directory, and outputs the lowest-energy candidates.
 
 [![Download Test Sets](https://img.shields.io/badge/Download-Test%20Sets-blue)](https://github.com/Tan-group/TriRNASP/releases)
 
@@ -18,8 +20,8 @@ make
 ```
 
 This will:
-- Compile the executable **`TriRNASP`**  
-- Automatically extract bundled dataset archives (`*.zip`) if present  
+- Compile the executable **`TriRNASP`**
+- Automatically extract bundled dataset archives (`*.zip`) if present
 
 ### 🛠️ Manual Build
 
@@ -30,9 +32,9 @@ gcc -O3 -fopenmp -Wall -Wextra \
 ```
 
 **Requirements:**
-- GCC with OpenMP support  
-- GNU Make  
-- Linux/Unix environment  
+- GCC with OpenMP support
+- GNU Make
+- Linux/Unix environment
 
 ---
 
@@ -41,18 +43,17 @@ gcc -O3 -fopenmp -Wall -Wextra \
 Before running, ensure the following are available:
 
 1. **Energy folder (`Energy/`)**
-   - `Energy/Rough.energy`  
-   - `Energy/Fine.energy`  
-   - `Energy/12atom_type.dat`  
+   - `Energy/Rough.energy`
+   - `Energy/Fine.energy`
+   - `Energy/12atom_type.dat`
 
-   These provide statistical potential parameters and the atom type list (12 entries).
+   These files provide statistical potential parameters and the atom type list (12 entries).
 
-2. **Structure directory**  
-   - A folder containing RNA structure files in `.pdb` format  
+2. **Structure directory**
+   - A folder containing RNA structure files in `.pdb` format
    - Example: `./example/`
 
-⚠️ **Note:**  
-The official **TriRNASP test sets** (including benchmark PDBs and evaluation metrics such as DI, TM-score, and RMSD) are available from the **[GitHub Releases](https://github.com/Tan-group/TriRNASP/releases)** page.
+⚠️ **Note:** Official **TriRNASP test sets** (including benchmark PDBs and evaluation metrics such as DI, TM-score, and RMSD) are available from the **[GitHub Releases](https://github.com/Tan-group/TriRNASP/releases)** page.
 
 ---
 
@@ -71,9 +72,9 @@ Example:
 ```
 
 The program will:
-- Scan the directory for `.pdb` files  
-- Compute three-body energies for each structure  
-- Output the **top 5 lowest-energy structures**  
+- Scan the directory for `.pdb` files
+- Compute three-body energies for each structure
+- Output the **top 5 lowest-energy structures**
 
 ---
 
@@ -91,7 +92,7 @@ R1205TS481_4.pdb    -364.965577550650
 Wall-clock time: 1.873877 seconds
 ```
 
-### Example Error (when stack size is too small):
+### Example Error (insufficient stack size)
 
 ```bash
 ./TriRNASP R0251/
@@ -100,7 +101,7 @@ Found PDBs: 23
 Segmentation fault (core dumped)
 ```
 
-This issue can be resolved by adjusting the constants defined in the source code (see **Notes** below).
+This issue can be resolved by adjusting constants in the source code (see **Notes** below).
 
 ---
 
@@ -116,7 +117,7 @@ make clean
 
 ## ⚡ Batch Processing with `batch.sh`
 
-For large datasets containing many subfolders of PDB structures, a helper script **`batch.sh`** is provided.
+For large datasets containing many subfolders of PDB structures, a helper script **`batch.sh`** is included.
 
 ### Usage
 
@@ -125,15 +126,15 @@ For large datasets containing many subfolders of PDB structures, a helper script
 ```
 
 The script will:
-- Traverse all subdirectories under `Test_sets/`  
-- Run **TriRNASP** on each directory  
-- Save energy results into `results_energy/` (one `.energy` file per directory)  
-- Log failed directories in `results_energy/failed_dirs.txt`  
-- Log PDB files that crash TriRNASP in `results_energy/crash_pdbs.txt`  
+- Traverse all subdirectories under `Test_sets/`
+- Run **TriRNASP** on each directory
+- Save energy results into `results_energy/` (one `.energy` file per directory)
+- Record failed directories in `results_energy/failed_dirs.txt`
+- Record PDB files that crash TriRNASP in `results_energy/crash_pdbs.txt`
 
 ### Parallel Execution
 
-By default, `JOBS=1` (serial mode). You can adjust this parameter inside `batch.sh`:
+By default, `JOBS=1` (serial mode). To enable parallel processing, edit `batch.sh`:
 
 ```bash
 JOBS=$(nproc)
@@ -145,10 +146,10 @@ This will use all available CPU cores for faster batch processing.
 
 ## ⚠️ Notes
 
-- Input `.pdb` files must follow the standard **PDB format**.  
-- All required energy/data files must exist in the `Energy/` folder.  
-- Missing inputs will cause the program to terminate.  
-- OpenMP parallelization is enabled for **multi-core performance**.  
+- Input `.pdb` files must follow the standard **PDB format**.
+- All required energy/data files must exist in the `Energy/` folder.
+- Missing inputs will cause the program to terminate.
+- OpenMP parallelization is enabled for **multi-core performance**.
 
 ### 🔧 Adjustable Parameters in Source Code
 At the top of **`TriRNASP.c`**, two constants control memory usage and file path length:
@@ -161,18 +162,20 @@ At the top of **`TriRNASP.c`**, two constants control memory usage and file path
 - **`num`** → Maximum number of `.pdb` structures allowed in a single directory.  
   - Default is 10000.  
   - If your dataset only contains a few hundred structures, this wastes memory and may cause **stack overflow / segmentation fault**.  
-  - ✅ **Solution:** Reduce this value (e.g. 512 or 1024) according to your dataset size.  
+  - ✅ **Recommendation:** Reduce this value (e.g., 512 or 1024) according to dataset size.
 
-- **`path_l`** → Maximum file path length (in characters).  
+- **`path_l`** → Maximum file path length (characters).  
   - Default is 300.  
-  - Usually sufficient, since typical Linux path length limit (`PATH_MAX`) is 4096.  
-  - ⚠️ Do **not** set this unnecessarily large, or it will also increase memory usage.  
+  - Typically sufficient, since the Linux path length limit (`PATH_MAX`) is 4096.  
+  - ⚠️ Do **not** set excessively large values, or memory usage will increase.
 
 If you encounter crashes like:
+
 ```bash
 Segmentation fault (core dumped)
 ```
-then lowering `num` in `TriRNASP.c` and recompiling usually solves the issue.
+
+then lowering `num` in `TriRNASP.c` and recompiling usually resolves the issue.
 
 ---
 
