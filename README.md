@@ -191,6 +191,5 @@ For questions or feedback, please contact:
 If you use **TriRNASP** in your work, please cite:
 
 ```
-Tovi Yuen, En Lou, Zouchenyu Zhou, Ya-Lan Tan, Zhi-jie Tan. 2025. TriRNASP. [Software].
-Available at: https://github.com/Tan-group
+Tovi Yuen, En Lou, Zouchenyu Zhou, Ya-Lan Tan, Zhi-jie Tan. 2025. TriRNASP: An efficient knowledge-based potential with three-body effect for accurate RNA 3D structure evaluation.
 ```
