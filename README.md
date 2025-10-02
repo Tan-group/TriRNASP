@@ -3,7 +3,7 @@
 # TriRNASP
 
 **TriRNASP** — by *Tan-group, Wuhan University*  
-*A program for computing RNA three-body statistical potentials and selecting structures closest to the native state.*
+*An efficient knowledge-based potential with three-body effect for accurate RNA 3D structure evaluation*
 
 TriRNASP reads precomputed energy tables and atom type definitions from the `Energy/` folder, processes `.pdb` structures from a given directory, and outputs the lowest-energy candidates.
 
