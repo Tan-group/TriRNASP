@@ -155,19 +155,40 @@ void free_table() {
 }
 
 
+static inline int compute_code(const char *s) {
+    if (!s || !s[0]) return -1;
 
-int compute_code(const char *s) {
-    const char *strings[] = {
-        "AC4'", "UC4'", "CC4'", "GC4'", "AN9", "UN1",
-        "CN1", "GN9", "AP", "UP", "CP", "GP"
-    };
-    int num_strings = sizeof(strings) / sizeof(strings[0]);  // 12
+    int base_idx;
+    switch (s[0]) {
+        case 'A': base_idx = 0; break;
+        case 'U': base_idx = 1; break;
+        case 'C': base_idx = 2; break;
+        case 'G': base_idx = 3; break;
+        default:  return -1;
+    }
 
-    for (int i = 0; i < num_strings; ++i) {
-        if (strcmp(s, strings[i]) == 0) {
-            return i;
+
+    if (s[1] == 'P' && s[2] == '\0') {
+        return 8 + base_idx;
+    }
+
+
+    if (s[1] == 'C' && s[2] == '4' && s[3] == '\'' && s[4] == '\0') {
+        return base_idx;
+    }
+
+
+    if (s[1] == 'N' && s[3] == '\0') {
+        if (s[2] == '9') {
+
+            return (s[0] == 'A' || s[0] == 'G') ? (4 + base_idx) : -1;
+        }
+        if (s[2] == '1') {
+
+            return (s[0] == 'U' || s[0] == 'C') ? (4 + base_idx) : -1;
         }
     }
+
     return -1;
 }
 
