@@ -1,5 +1,4 @@
 #include <stdio.h>
-#include <stdbool.h>
 #include <string.h>
 #include <stdint.h>
 #include <dirent.h>
@@ -158,13 +157,18 @@ void free_table() {
 
 
 int compute_code(const char *s) {
-    int code = 0;
-    while (*s) {
+    const char *strings[] = {
+        "AC4'", "UC4'", "CC4'", "GC4'", "AN9", "UN1",
+        "CN1", "GN9", "AP", "UP", "CP", "GP"
+    };
+    int num_strings = sizeof(strings) / sizeof(strings[0]);  // 12
 
-        code = code * 257 + (unsigned char)(*s);
-        s++;
+    for (int i = 0; i < num_strings; ++i) {
+        if (strcmp(s, strings[i]) == 0) {
+            return i;
+        }
     }
-    return code;
+    return -1;
 }
 
 
@@ -247,10 +251,8 @@ if (intervals1 < 1) intervals1 = 1;
 
 
     char file_name[num][path_l], file_name1[num][path_l], aline[500];
-    char atomtype[12][10];
-    memset(atomtype, 0, sizeof(atomtype));
-    FILE *atom_type, *fp, *fpotential_nature, *fpotential_nature1;
-    int i1, a, b, c, a1, b1, c1;
+    FILE *fp, *fpotential_nature, *fpotential_nature1;
+    int a, b, c, a1, b1, c1;
     int K, k, L, i, n1, n2, n3, n4, n5, n6;
 
     
@@ -282,23 +284,8 @@ if (!potential_nature1) {
 #define IDX1(n1,n2,n3,n4,n5,n6) \
     ((((((size_t)(n1)*D2 + (n2))*D3 + (n3))*I1 + (n4))*I1 + (n5))*(2*I1) + (n6))
 
-    i1 = 0;
-    atom_type = fopen("Energy/12atom_type.dat", "r");
-    while (!feof(atom_type))
-    {
-
-        int tmp1 = fscanf(atom_type, "%s\n", atomtype[i1]);
-        (void)tmp1;
-        i1++;
-    }
-    fclose(atom_type);
     
 
-    int atomtype_code[12];
-    for (i1 = 0; i1 < 12; i1++) {
-        atomtype_code[i1] = compute_code(atomtype[i1]);
-    }
-    
     a = 0;
     b = 0;
     c = 0;
@@ -480,7 +467,7 @@ for (int j = 0; j < i; ++j) {
         int type_code[i];
         for (n1 = 0; n1 < i; n1++) {
             type_code[n1] = compute_code(type[n1]);
-            if(type_code[n1] == 1107787231 || type_code[n1] == 1447279091 || type_code[n1] == 1141736417 || type_code[n1] == 1209634789) Mu[0] += 1.0; //n_BASE
+            if(type_code[n1] >= 0 && type_code[n1] <= 3 ) Mu[0] += 1.0; //n_BASE
         }
     
 
@@ -534,30 +521,21 @@ for (int n1 = 0; n1 < i; ++n1) {
 
 if (b12 > intervals - 1 || b13 > intervals - 1 || b23 > 2*intervals - 1) continue;
 
-bool matched = false;
-            for (int t1 = 0; t1 < D1 && !matched; ++t1) {
-                if (type_code[n1] != atomtype_code[t1]) continue;
-                for (int t2 = 0; t2 < D2 && !matched; ++t2) {
-                    if (type_code[n2] != atomtype_code[t2]) continue;
-                    for (int t3 = 0; t3 < D3; ++t3) {
-                        if (type_code[n3] != atomtype_code[t3]) continue;
-                        sum += potential_nature[
-                            IDX(t1, t2, t3, b12, b13, b23)];
 
-                        key[0] = t1;
-                        key[1] = t2;
-                        key[2] = t3;
+            if(type_code[n1] >= 0 && type_code[n2] >= 0 && type_code[n3] >= 0)
+            {
+                        sum += potential_nature[
+                        IDX(type_code[n1], type_code[n2], type_code[n3], b12, b13, b23)];
+
+                        key[0] = type_code[n1];
+                        key[1] = type_code[n2];
+                        key[2] = type_code[n3];
                         key[3] = D12;
                         key[4] = D13;
                         key[5] = D23;
                         #pragma omp critical
                         add_id(key, k);
-                        matched = true;
-                        break;
-                    }
-                    if(matched) break;
-                }
-            }
+            } else continue;
         }
     }
 }
@@ -698,20 +676,13 @@ for (int it = 0; it < K && count_written < keep; it++) {
                 int b13 = (int)(sqrt(d13) * inv_bw);
                 int b23 = (int)(sqrt(d23) * inv_bw);
                 if (b12 > intervals1 - 1 || b13 > intervals1 - 1 || b23 > 2*intervals1 - 1) continue;
-bool matched = false;
-                for (int t1 = 0; t1 < D1 && !matched; ++t1) {
-                    if (type_code[n1] != atomtype_code[t1]) continue;
-                    for (int t2 = 0; t2 < D2 && !matched; ++t2) {
-                        if (type_code[n2] != atomtype_code[t2]) continue;
-                        for (int t3 = 0; t3 < D3; ++t3) {
-                            if (type_code[n3] != atomtype_code[t3]) continue;
-                            sum += potential_nature1[ IDX1(t1,t2,t3,b12,b13,b23) ];
-                            matched = true;
-                            break;
-                        }
-                        if(matched) break;
-                    }
-                }
+
+            if(type_code[n1] >= 0 && type_code[n2] >= 0 && type_code[n3] >= 0)
+            {
+                        sum += potential_nature1[ 
+                        IDX1(type_code[n1],type_code[n2],type_code[n3],b12,b13,b23) ];
+
+            } else continue;
             }
         }
     }
