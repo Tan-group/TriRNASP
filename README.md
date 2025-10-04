@@ -81,14 +81,14 @@ The program will:
 
 ```bash
 ./TriRNASP ./example
-Scanning  directory: ./example/
+Scanning  directory: exmaple/
 Found PDBs: 182
-R1205.pdb           -447.119919744277
-R1205TS481_2.pdb    -391.548708213982
-R1205TS481_1.pdb    -425.672444518381
-R1205TS481_3.pdb    -292.657212955055
-R1205TS481_4.pdb    -364.965577550650
-Wall-clock time: 1.873877 seconds
+R1205.pdb   -447.119919744277
+R1205TS481_2.pdb   -391.548708213982
+R1205TS481_1.pdb   -425.672444518381
+R1205TS481_3.pdb   -292.657212955055
+R1205TS481_4.pdb   -364.965577550650
+Wall-clock time: 1.164937 seconds
 ```
 
 ### Example Error (insufficient stack size)
