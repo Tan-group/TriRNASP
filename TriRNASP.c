@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <stdbool.h>
 #include <string.h>
 #include <stdint.h>
 #include <dirent.h>
@@ -9,7 +10,7 @@
 #include <omp.h>
 #include <ctype.h>
 #define TABLE_SIZE 131071   
-#define num 10000    
+#define num 1000    
 #define path_l 300  
 
 static double *g_energy = NULL;
@@ -533,10 +534,10 @@ for (int n1 = 0; n1 < i; ++n1) {
 
 if (b12 > intervals - 1 || b13 > intervals - 1 || b23 > 2*intervals - 1) continue;
 
-
-            for (int t1 = 0; t1 < D1; ++t1) {
+bool matched = false;
+            for (int t1 = 0; t1 < D1 && !matched; ++t1) {
                 if (type_code[n1] != atomtype_code[t1]) continue;
-                for (int t2 = 0; t2 < D2; ++t2) {
+                for (int t2 = 0; t2 < D2 && !matched; ++t2) {
                     if (type_code[n2] != atomtype_code[t2]) continue;
                     for (int t3 = 0; t3 < D3; ++t3) {
                         if (type_code[n3] != atomtype_code[t3]) continue;
@@ -551,7 +552,10 @@ if (b12 > intervals - 1 || b13 > intervals - 1 || b23 > 2*intervals - 1) continu
                         key[5] = D23;
                         #pragma omp critical
                         add_id(key, k);
+                        matched = true;
+                        break;
                     }
+                    if(matched) break;
                 }
             }
         }
@@ -694,20 +698,24 @@ for (int it = 0; it < K && count_written < keep; it++) {
                 int b13 = (int)(sqrt(d13) * inv_bw);
                 int b23 = (int)(sqrt(d23) * inv_bw);
                 if (b12 > intervals1 - 1 || b13 > intervals1 - 1 || b23 > 2*intervals1 - 1) continue;
-
-                for (int t1 = 0; t1 < D1; ++t1) {
+bool matched = false;
+                for (int t1 = 0; t1 < D1 && !matched; ++t1) {
                     if (type_code[n1] != atomtype_code[t1]) continue;
-                    for (int t2 = 0; t2 < D2; ++t2) {
+                    for (int t2 = 0; t2 < D2 && !matched; ++t2) {
                         if (type_code[n2] != atomtype_code[t2]) continue;
                         for (int t3 = 0; t3 < D3; ++t3) {
                             if (type_code[n3] != atomtype_code[t3]) continue;
                             sum += potential_nature1[ IDX1(t1,t2,t3,b12,b13,b23) ];
+                            matched = true;
+                            break;
                         }
+                        if(matched) break;
                     }
                 }
             }
         }
     }
+
 
     printf("%s   %.12lf\n", file_name1[id], sum);
 }
