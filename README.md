@@ -45,9 +45,8 @@ Before running, ensure the following are available:
 1. **Energy folder (`Energy/`)**
    - `Energy/Rough.energy`
    - `Energy/Fine.energy`
-   - `Energy/12atom_type.dat`
 
-   These files provide statistical potential parameters and the atom type list (12 entries).
+   These files provide statistical potential parameters.
 
 2. **Structure directory**
    - A folder containing RNA structure files in `.pdb` format
