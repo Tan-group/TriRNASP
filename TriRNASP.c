@@ -78,67 +78,55 @@ static inline double key_to_x(const int key[6]) {
 }
 
 
-double compute_entropy_gauss(int dist_idx) {
+double compute_entropy_gauss(int dist_idx)
+{
 
     uint64_t N = 0;
-    for (unsigned i = 0; i < TABLE_SIZE; ++i)
-        for (Node *p = table[i]; p; p = p->next)
-            N += p->counts[dist_idx];
+    double sum_x = 0.0, sum_x2 = 0.0, sum_c_logc = 0.0;
+
+    #pragma omp parallel for reduction(+:N,sum_x,sum_x2,sum_c_logc) schedule(static)
+    for (unsigned i = 0; i < TABLE_SIZE; ++i) {
+        for (Node *p = table[i]; p; p = p->next) {
+            uint32_t c = p->counts[dist_idx];
+            if (!c) continue;
+
+            double xi = key_to_x(p->key);
+            double dc = (double)c;
+
+            N      += c;
+            sum_x  += dc * xi;
+            sum_x2 += dc * xi * xi;
+            sum_c_logc += dc * log(dc);
+        }
+    }
+
     if (N == 0) return 0.0;
 
-
-    double mu = 0.0;
-    for (unsigned i = 0; i < TABLE_SIZE; ++i) {
-        for (Node *p = table[i]; p; p = p->next) {
-            uint32_t c = p->counts[dist_idx];
-            if (c == 0) continue;
-            double pi = (double)c / (double)N;
-            double xi = key_to_x(p->key);
-            mu += pi * xi;
-        }
-    }
-
-
-    double var = 0.0;
-    for (unsigned i = 0; i < TABLE_SIZE; ++i) {
-        for (Node *p = table[i]; p; p = p->next) {
-            uint32_t c = p->counts[dist_idx];
-            if (c == 0) continue;
-            double pi = (double)c / (double)N;
-            double xi = key_to_x(p->key);
-            double d = xi - mu;
-            var += pi * d * d;
-        }
-    }
-
-    if (var <= 0) var = 1e-8;
+    double dN  = (double)N;
+    double mu  = sum_x  / dN;
+    double var = sum_x2 / dN - mu * mu;
+    if (var <= 1e-12) var = 1e-12;        
+    double inv2var = 1.0 / (2.0 * var);
 
 
     double Z = 0.0;
+
+    #pragma omp parallel for reduction(+:Z) schedule(static)
     for (unsigned i = 0; i < TABLE_SIZE; ++i) {
         for (Node *p = table[i]; p; p = p->next) {
-            if (p->counts[dist_idx] == 0) continue;
+            if (!p->counts[dist_idx]) continue;
             double xi = key_to_x(p->key);
-            double exponent = - (xi - mu)*(xi - mu) / (2.0 * var);
-            Z += exp(exponent);
+            double d  = xi - mu;
+            Z += exp(- d * d * inv2var);
         }
     }
 
+    if (Z <= 0.0) return 0.0;
 
-    double D = 0.0;
-    for (unsigned i = 0; i < TABLE_SIZE; ++i) {
-        for (Node *p = table[i]; p; p = p->next) {
-            uint32_t c = p->counts[dist_idx];
-            if (c == 0) continue;
-            double pi = (double)c / (double)N;
-            double xi = key_to_x(p->key);
-            double exponent = - (xi - mu)*(xi - mu) / (2.0 * var);
-            double qi = exp(exponent) / Z;
-            D += pi * log(pi / qi);
-        }
-    }
-    return D;  
+    /* D = (Σ c log c)/N - log N + 1/2 + log Z */
+    return (sum_c_logc / dN) - log(dN) + 0.5 + log(Z);
 }
+
 
 
 void free_table() {
