@@ -1,5 +1,3 @@
-![header](img/WorkFlow.png)
-
 # TriRNASP
 
 **TriRNASP** — by *Tan-group, Wuhan University*  
