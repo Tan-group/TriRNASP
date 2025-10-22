@@ -89,27 +89,6 @@ Wall-clock time: 0.81 seconds
 
 ---
 
-## ⚡ Batch Processing with `batch.sh`
-
-For large datasets containing many subfolders:
-
-```bash
-./batch.sh
-```
-
-This script:
-- Traverses all subfolders under `Test_sets/`
-- Runs **TriRNASP** for each directory
-- Saves results in `results_energy/`
-- Logs failed directories and crashed PDBs
-
-Enable parallel execution by editing `batch.sh`:
-```bash
-JOBS=$(nproc)
-```
-This uses all CPU cores.
-
----
 
 ## ⚙️ Adjustable Parameters
 
@@ -118,7 +97,7 @@ At the top of **`TriRNASP.c`**:
 #define num     10000  // Max number of PDB files per directory
 #define path_l  300    // Max path length
 ```
-Reduce `num` if your dataset has fewer structures to save memory and avoid stack overflow.
+Reduce `num` if your dataset has fewer structures to save memory and avoid **stack overflow**.
 
 ---
 
@@ -146,5 +125,4 @@ Removes object files and the executable.
 
 ## 📖 Citation
 ```
-Tovi Yuen, En Lou, Zouchenyu Zhou, Ya-Lan Tan, Zhi-jie Tan. 2025.
-TriRNASP: An efficient knowledge-based potential with three-body effect for accurate RNA 3D structure evaluation.
+Tongwei Yuan, En Lou, Zouchenyu Zhou, Ya-Lan Tan, Zhi-jie Tan. TriRNASP: An efficient knowledge-based potential with three-body effect for accurate RNA 3D structure evaluation.(2025).
