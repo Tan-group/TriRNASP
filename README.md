@@ -12,8 +12,9 @@ TriRNASP reads precomputed energy tables and atom type definitions from the `Ene
 ## 🧩 Schematic Workflow
 
 <p align="center">
-  <img src="workflow.png" alt="TriRNASP workflow" width="75%">
+  <img src="workflow.png" alt="TriRNASP workflow" style="width:75%;max-width:800px;">
 </p>
+
 
 **Figure 1.** *Schematic workflow of the knowledge-based potential TriRNASP for RNA 3D structure evaluation.*  
 **(A)** **Coarse-grained (CG) representation** of RNA molecules. Each triplet state is defined by three CG atom types *(i, j, k)* and their mutual distances *(r₁, r₂, r₃)*. Their occurrences are accumulated into a 6-dimensional counting tensor, from which the conditional probability tensor and the 3-body statistical potentials at rough and fine resolutions are derived.  
