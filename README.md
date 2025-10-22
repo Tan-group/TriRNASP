@@ -16,8 +16,8 @@ TriRNASP reads precomputed energy tables and atom type definitions from the `Ene
 </p>
 
 **Figure 1.** *Schematic workflow of the knowledge-based potential TriRNASP for RNA 3D structure evaluation.*  
-(A) **Coarse-grained (CG) representation** of RNA molecules. Each triplet state is defined by three CG atom types *(i, j, k)* and their mutual distances *(r₁, r₂, r₃)*. Their occurrences are accumulated into a 6-dimensional counting tensor, from which the conditional probability tensor and the 3-body statistical potentials at rough and fine resolutions are derived.  
-(B) **Two-step evaluation strategy:** a high-throughput evaluation with a rough 3-body potential rapidly screens and selects the top-5 candidate structures; subsequently, a fine 3-body potential re-ranks these top-5 candidates to obtain the final top-1 structure.
+**(A)** **Coarse-grained (CG) representation** of RNA molecules. Each triplet state is defined by three CG atom types *(i, j, k)* and their mutual distances *(r₁, r₂, r₃)*. Their occurrences are accumulated into a 6-dimensional counting tensor, from which the conditional probability tensor and the 3-body statistical potentials at rough and fine resolutions are derived.  
+**(B)** **Two-step evaluation strategy:** A high-throughput evaluation with a rough 3-body potential rapidly screens and selects the top-5 candidate structures; subsequently, a fine 3-body potential re-ranks these top-5 candidates to obtain the final top-1 structure.
 
 ---
 
@@ -29,8 +29,8 @@ TriRNASP reads precomputed energy tables and atom type definitions from the `Ene
 make
 ```
 This will:
-- Compile the executable **`TriRNASP`** with full optimization and OpenMP support
-- Automatically extract bundled dataset archives (`*.zip`) if present
+- Compile the executable **`TriRNASP`** with full optimization and OpenMP support.
+- Automatically extract bundled dataset archives (`*.zip`) if present.
 
 ### 🛠️ Manual Build (Alternative)
 
@@ -43,12 +43,12 @@ gcc -O3 -march=native -ffast-math -fno-math-errno -fopenmp \
 ```
 
 **Build requirements:**
-- GCC with OpenMP support
-- Linux/Unix environment
+- GCC with OpenMP support.
+- Linux/Unix environment.
 
 **Optional:**
-- `-march=native` enables architecture-specific optimization
-- `-ffast-math -fno-math-errno` improves speed of math operations
+- `-march=native` enables architecture-specific optimization.
+- `-ffast-math -fno-math-errno` improves speed of math operations.
 
 ---
 
@@ -63,7 +63,7 @@ Before running, ensure the following exist:
    These contain the precomputed energy tables.
 
 2. **Structure directory**
-   - A folder with `.pdb` files (RNA structures)
+   - A folder with `.pdb` files (RNA structures).
    - Example: `./example/`
 
 ⚠️ Official benchmark sets are available from the [GitHub Releases](https://github.com/Tan-group/TriRNASP/releases) page.
@@ -101,7 +101,6 @@ Wall-clock time: 0.81 seconds
 
 ---
 
-
 ## ⚙️ Adjustable Parameters
 
 At the top of **`TriRNASP.c`**:
@@ -131,10 +130,14 @@ Removes object files and the executable.
 ---
 
 ## 📬 Contact
+
 📧 **zjtan@whu.edu.cn**
 
 ---
 
 ## 📖 Citation
+
 ```
-Tongwei Yuan, En Lou, Zouchenyu Zhou, Ya-Lan Tan, Zhi-jie Tan. TriRNASP: An efficient knowledge-based potential with three-body effect for accurate RNA 3D structure evaluation.(2025).
+Tongwei Yuan, En Lou, Zouchenyu Zhou, Ya-Lan Tan, Zhi-jie Tan.
+TriRNASP: An efficient knowledge-based potential with three-body effect for accurate RNA 3D structure evaluation. (2025)
+```
