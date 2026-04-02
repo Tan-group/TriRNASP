@@ -73,7 +73,7 @@ Wall-clock time: 0.804421 seconds
 ✅ **Notes:**
 - The output lists the **Top 5 lowest-energy structures** (in *kBT*).
 - **Lower energy** indicates a structure **closer to the native state**.
-
+- **<span style="color:red">Important: For reproducible and consistent TriRNASP results, users must provide a standardized PDB file with hydrogen (H) atoms removed in advance. Retaining H atoms or using non-standardized PDB files can cause discrepancies in the scoring results.</span>**
 ---
 
 ## ⚙️ 4. Configuration
