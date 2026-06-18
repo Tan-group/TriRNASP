@@ -112,7 +112,7 @@ Wuhan University
 
 ## 🔖 Citation
 ```
-Tongwei Yuan, En Lou, Zouchenyu Zhou, Ya-Lan Tan, Zhi-jie Tan.
-TriRNASP: An efficient knowledge-based potential with three-body effects
-for accurate RNA 3D structure evaluation. (2025)
+Tongwei Yuan, ..., Zhi-jie Tan. "TriRNASP: A knowledge-based potential
+with three-body effects for accurate RNA structure evaluation."
+Biophysical Journal 125.11 (2026): 2526-2540.
 ```
