@@ -112,11 +112,8 @@ Wuhan University
 
 ## 🔖 Citation
 ```
-@article{Yuan2026TriRNASP,
-  title   = {TriRNASP: A knowledge-based potential with three-body effects for accurate RNA structure evaluation},
-  author  = {Tongwei Yuan and En Lou and Zouchenyu Zhou and Ya-Lan Tan and Zhi-Jie Tan},
-  journal = {Biophysical Journal},
-  year    = {2026},
-  doi     = {10.1016/j.bpj.2026.04.003}
-}
+Tongwei Yuan, En Lou, Zouchenyu Zhou, Ya-Lan Tan, and Zhi-Jie Tan. “TriRNASP:
+A knowledge-based potential with three-body effects for accurate RNA structure
+evaluation.” Biophysical Journal 125(11), 2526–2540 (2026).
+https://doi.org/10.1016/j.bpj.2026.04.003
 ```
