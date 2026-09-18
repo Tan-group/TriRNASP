@@ -73,7 +73,7 @@ Wall-clock time: 0.804421 seconds
 ✅ **Notes:**
 - The output lists the **Top 5 lowest-energy structures** (in *kBT*).
 - **Lower energy** indicates a structure **closer to the native state**.
-
+- **<span style="color:red">Important: For reproducible and consistent TriRNASP results, users must provide a standardized PDB file with hydrogen (H) atoms removed in advance. Retaining H atoms or using non-standardized PDB files can cause discrepancies in the scoring results.</span>**
 ---
 
 ## ⚙️ 4. Configuration
@@ -112,7 +112,8 @@ Wuhan University
 
 ## 🔖 Citation
 ```
-Tongwei Yuan, ..., Zhi-jie Tan. "TriRNASP: A knowledge-based potential with
-three-body effects for accurate RNA structure evaluation."
-Biophysical Journal 125.11 (2026): 2526-2540.
+Tongwei Yuan, En Lou, Zouchenyu Zhou, Ya-Lan Tan, and Zhi-Jie Tan. “TriRNASP:
+A knowledge-based potential with three-body effects for accurate RNA structure
+evaluation.” Biophysical Journal 125(11), 2526–2540 (2026).
+https://doi.org/10.1016/j.bpj.2026.04.003
 ```
